@@ -54,22 +54,22 @@ import {
      );
    };
  
-   
+   useEffect(() => {
+    getOneTimeLocation();
+   }, []);
    return (
     <SafeAreaView style={{flex: 1}}>
        <View style={styles.container}>
          <Text>Hiii</Text>
-        <MapView
-          provider={PROVIDER_GOOGLE}
-          style={{height: 100}}
-          initialRegion={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-          showsUserLocation
-        />
+          <MapView
+            provider={PROVIDER_GOOGLE}
+            style={{height: 300, width: '100%'}}
+            region={{
+              latitude: Number(currentLatitude),
+              longitude: Number(currentLongitude),
+            }}
+            showsUserLocation
+          />
          <View style={styles.container}>
            <Image
              source={{
