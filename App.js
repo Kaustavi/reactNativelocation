@@ -23,6 +23,7 @@ import {
 
  //import all the components we are going to use.
  import Geolocation from '@react-native-community/geolocation';
+import {geoFire} from './firebase';
  
  const App = () => {
    const [currentLongitude, setCurrentLongitude] = useState(0);
@@ -45,7 +46,20 @@ import {
          //Setting state Longitude to re re-render the Longitude Text
          setCurrentLatitude(currentLatitude);
          //Setting state Latitude to re re-render the Longitude Text
-       },
+        geoFire
+          .set('my_Location', [
+            Number(currentLatitude),
+            Number(currentLongitude),
+          ])
+          .then(
+            function () {
+              console.log('Provided key has been added to GeoFire');
+            },
+            function (error) {
+              console.log('Error: ' + error);
+            },
+        );
+      },
       error => {
         console.log({error})
          setLocationStatus(error.message);
@@ -67,6 +81,8 @@ import {
             region={{
               latitude: Number(currentLatitude),
               longitude: Number(currentLongitude),
+              latitudeDelta: 0.04,
+              longitudeDelta: 0.05,
             }}
             showsUserLocation
           />
