@@ -37,36 +37,37 @@ import {geoFire} from './firebase';
      Geolocation.getCurrentPosition(
        //Will give you the current location
       position => {
-         setLocationStatus('You are Here');
-         const currentLongitude = JSON.stringify(position.coords.longitude);
-         //getting the Longitude from the location json
-         const currentLatitude = JSON.stringify(position.coords.latitude);
-         //getting the Latitude from the location json
-         setCurrentLongitude(currentLongitude);
-         //Setting state Longitude to re re-render the Longitude Text
-         setCurrentLatitude(currentLatitude);
-         //Setting state Latitude to re re-render the Longitude Text
-        geoFire
-          .set('my_Location', [
-            Number(currentLatitude),
-            Number(currentLongitude),
-          ])
-          .then(
-            function () {
-              console.log('Provided key has been added to GeoFire');
-            },
-            function (error) {
-              console.log('Error: ' + error);
-            },
-        );
+        setLocationStatus('You are Here');
+        let currentLongitude = JSON.stringify(position.coords.longitude);
+        //getting the Longitude from the location json
+        let currentLatitude = JSON.stringify(position.coords.latitude);
+        //getting the Latitude from the location json
+        setCurrentLongitude(currentLongitude);
+        //Setting state Longitude to re re-render the Longitude Text
+        setCurrentLatitude(currentLatitude);
+        //Setting state Latitude to re re-render the Longitude Text
       },
       error => {
-        console.log({error})
-         setLocationStatus(error.message);
-       },
+        console.log({error});
+        setLocationStatus(error.message);
+      },
       {enableHighAccuracy: true, timeout: 30000, maximumAge: 1000},
-     );
+    );
    };
+
+   function storedData() {
+     console.log('clicked');
+    geoFire
+      .set('my_Location', [Number(currentLatitude), Number(currentLongitude)])
+      .then(
+        function () {
+          console.log('Provided key has been added to GeoFire');
+       },
+       function (error) {
+         console.log('Error: ' + error);
+       }
+     );
+   }
  
    useEffect(() => {
     getOneTimeLocation();
@@ -111,7 +112,7 @@ import {geoFire} from './firebase';
              Latitude: {currentLatitude}
            </Text>
           <View style={{marginTop: 20}}>
-             <Button title="Button" onPress={getOneTimeLocation} />
+            <Button title="Store to database" onPress={() => storedData()} />
            </View>
          </View>
        </View>

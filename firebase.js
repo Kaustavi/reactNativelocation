@@ -20,4 +20,4 @@ const firebaseConfig = {
 // Initialize Firebase
 export const firebaseApp = firebase.initializeApp(firebaseConfig);
 export const firebaseRef = firebase.database().ref('geoLocation');
-export const geoFire = new GeoFire(firebaseRef);
+export const geoFire = new GeoFire(firebaseRef.push());
