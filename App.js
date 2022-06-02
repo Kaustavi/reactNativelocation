@@ -21,7 +21,7 @@ import {
 
  //import all the components we are going to use.
  import Geolocation from '@react-native-community/geolocation';
-import {geoFire} from './firebase';
+import {firebaseRef, geoFire} from './firebase';
  
  const App = () => {
    const [currentLongitude, setCurrentLongitude] = useState(0);
@@ -66,11 +66,15 @@ import {geoFire} from './firebase';
           console.log('Error: ' + error);
         },
      );
+    
    }
  
    useEffect(() => {
     getOneTimeLocation();
-    
+    firebaseRef.get('my_Location').then(function (location) {
+        const locVal = location.val();
+        console.log(locVal);
+      });
    }, []);
    return (
     <SafeAreaView style={{flex: 1}}>
@@ -81,6 +85,10 @@ import {geoFire} from './firebase';
               provider={PROVIDER_GOOGLE}
               style={{height: 300, width: '100%'}}
               region={initialRegion}
+              onUserLocationChange={v => {
+                setCurrentLongitude(v.nativeEvent.coordinate.longitude);
+                setCurrentLatitude(v.nativeEvent.coordinate.latitude);
+              }}
               showsUserLocation>
             <MapView.Marker
                 coordinate={{
