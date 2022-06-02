@@ -33,7 +33,7 @@
 {
   RCTAppSetupPrepareApp(application);
 
-  [GMSServices provideAPIKey:@"AIzaSyCatd4b4U2A8ASTpN6z2InEozQntQDmilQ"]; // add this line using the api key obtained from Google Console
+  [GMSServices provideAPIKey:@"AIzaSyCCT7owTSCIcFDLUidUHOP6HPtToXjxaeU"]; // add this line using the api key obtained from Google Console
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
 

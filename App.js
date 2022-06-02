@@ -21,13 +21,19 @@ import {
 
  //import all the components we are going to use.
  import Geolocation from '@react-native-community/geolocation';
-import {firebaseRef, geoFire} from './firebase';
+import {geoFire} from './firebase';
  
  const App = () => {
    const [currentLongitude, setCurrentLongitude] = useState(0);
    const [currentLatitude, setCurrentLatitude] = useState(0);
    const [locationStatus, setLocationStatus] = useState('');
 
+  const initialRegion = {
+    latitude: Number(currentLatitude),
+    longitude: Number(currentLongitude),
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  };
  
    const getOneTimeLocation = () => {
      setLocationStatus('Getting Location ...');
@@ -45,15 +51,14 @@ import {firebaseRef, geoFire} from './firebase';
       },
       {enableHighAccuracy: true, timeout: 30000, maximumAge: 1000},
     );
-    geoFire.get('-N2k5FidF_EUU6VHObzg').then(function (snapshot) {
-        console.log(snapshot);
-    });
    };
 
 
    function storedData() {
     console.log('clicked');
-    geoFire.set('my_Location', [currentLatitude, currentLongitude]).then(
+    geoFire
+      .set('my_Location', [Number(currentLatitude), Number(currentLongitude)])
+      .then(
         function () {
           console.log('Provided key has been added to GeoFire');
         },
@@ -75,13 +80,9 @@ import {firebaseRef, geoFire} from './firebase';
           <MapView
               provider={PROVIDER_GOOGLE}
               style={{height: 300, width: '100%'}}
-              region={{
-                latitude: Number(currentLatitude),
-                longitude: Number(currentLongitude),
-                latitudeDelta: 0.01,
-                longitudeDelta: 0.01,
-              }}>
-            <Marker
+              region={initialRegion}
+              showsUserLocation>
+            <MapView.Marker
                 coordinate={{
                   latitude: Number(currentLatitude),
                   longitude: Number(currentLongitude),
@@ -89,13 +90,6 @@ import {firebaseRef, geoFire} from './firebase';
                 title="MyCoordinate"
               />
 
-            <Marker
-                coordinate={{
-                  latitude: Number(currentLatitude),
-                  longitude: Number(currentLongitude),
-                }}
-                title="MyCoordinate"
-              />
           </MapView>
         )}
         <View style={styles.container}>
