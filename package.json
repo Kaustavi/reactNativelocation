@@ -19,6 +19,7 @@
     "react-devtools": "^4.24.6",
     "react-devtools-core": "^4.13.4",
     "react-native": "0.68.2",
+    "react-native-device-info": "^9.0.0",
     "react-native-maps": "^0.31.1"
   },
   "devDependencies": {
